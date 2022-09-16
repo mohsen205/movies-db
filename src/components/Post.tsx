@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 const Post = ({ Poster, Title, Type, Year, imdbID }: PostProps) => {
   const navigate = useNavigate();
   const handleNavigation = () => {
-    navigate("movies");
+    navigate(`movies/${imdbID}`);
   };
+  console.log(Type);
   return (
     <Grid
       item
@@ -17,6 +18,7 @@ const Post = ({ Poster, Title, Type, Year, imdbID }: PostProps) => {
       sx={{
         display: "flex",
         justifyContent: "center",
+        cursor: "pointer",
       }}
       onClick={handleNavigation}
     >

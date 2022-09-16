@@ -1,11 +1,12 @@
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import InputBase from "@mui/material/InputBase";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material";
-import { useState } from "react";
 import axios from "axios";
 import { PostProps } from "./types";
 import Posts from "./Posts";
+import LoadingPost from "./LoadingPost";
 const StyledInput = styled(InputBase)(({ theme }) => ({
   backgroundColor: theme.palette.common.white,
   width: "25rem",
@@ -30,6 +31,24 @@ const Search = () => {
   const [error, setError] = useState<string | undefined>("");
 
   const url = "https://www.omdbapi.com/?apikey=c24c2c7d&s=";
+
+  useEffect(() => {
+    axios
+      .get(`${url}batman`)
+      .then((response) => {
+        const { Response } = response.data;
+        console.log(response.data);
+        if (Response === "True") {
+          const { Search } = response.data;
+          setResulats(Search);
+        } else {
+          const { Error } = response.data;
+          setError(Error);
+        }
+      })
+      .catch((error) => setError(error));
+  }, []);
+
   const handleSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchInput(value);
@@ -54,7 +73,7 @@ const Search = () => {
         <StyledInput value={searchInput} onChange={handleSearchValue} />
         {error && <ErrorMessage variant="overline">{error}</ErrorMessage>}
       </Box>
-      <Posts search={resulats} />
+      {resulats.length === 0 ? <LoadingPost /> : <Posts search={resulats} />}
     </>
   );
 };

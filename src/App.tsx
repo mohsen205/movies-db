@@ -1,14 +1,12 @@
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Search from "./components/Search";
+import { Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Movies from "./components/Movies";
 function App() {
   return (
-    <Container sx={{ paddingY: "5rem" }}>
-      <Typography variant="h3" color="#102a42">
-        Search Movies
-      </Typography>
-      <Search />
-    </Container>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="movies/:id" element={<Movies />} />
+    </Routes>
   );
 }
 
